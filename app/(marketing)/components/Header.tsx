@@ -33,7 +33,6 @@ function Header() {
 				<div
 					className='
 						pt-8
-						pl-4
 						pb-8
 						flex
 						items-center
