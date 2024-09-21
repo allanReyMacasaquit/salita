@@ -66,7 +66,7 @@ function Header() {
 					</SignedIn>
 					<SignedOut>
 						<SignInButton mode='modal' fallbackRedirectUrl='/learn'>
-							<Button size='lg'>
+							<Button size='sm'>
 								<TbSquareLetterS size='30' className='mx-2 rounded-full' />{' '}
 								<span className='hidden md:block'>Login</span>
 							</Button>

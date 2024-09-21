@@ -52,25 +52,25 @@ export default function Home() {
 					flex
 					flex-col
 					items-center
-					py-4
+					
 					'
 			>
-				<h1 className='text-center font-bold text-neutral-600 max-4-[480px] text-lg lg:text-3xl py-2'>
+				<h1 className='text-center font-bold text-neutral-600 max-w-[480px] text-lg lg:text-3xl py-2'>
 					Learn, practice and master the words of the Bible
 				</h1>
-				<div className='mt-4 '>
+				<div className='mt-4 flex flex-col items-center gap-y-2'>
 					<ClerkLoading>
 						<Loader className='h-8 w-8 text-muted-foreground animate-spin' />
 					</ClerkLoading>
 					<ClerkLoaded>
 						<SignedOut>
 							<SignUpButton mode='modal' fallbackRedirectUrl='/learn'>
-								<Button size='lg' variant='secondary' className='w-full mb-2'>
-									Get Started!
+								<Button size='sm' variant='secondary' className='w-full'>
+									Get Started
 								</Button>
 							</SignUpButton>
 							<SignInButton mode='modal' fallbackRedirectUrl='/learn'>
-								<Button size='lg' variant='primaryOutline' className='w-full'>
+								<Button size='sm' variant='primaryOutline' className='w-full'>
 									I Already have an account
 								</Button>
 							</SignInButton>
