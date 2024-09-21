@@ -9,8 +9,7 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default:
-					'bg-white text-black border-slate-200 border-b-0  active:drop-shadow-lg hover:bg-slate-100 text-slate-500 transition',
+				default: 'hover:bg-slate-100',
 				primary:
 					'bg-sky-400 text-primary-foreground hover:bg-sky-400/90 border-sky-500/50 active:drop-shadow-lg border-b-0 active:border-b-4 transition',
 				primaryOutline:
