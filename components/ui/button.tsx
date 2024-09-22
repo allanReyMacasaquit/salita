@@ -29,9 +29,9 @@ const buttonVariants = cva(
 				ghost:
 					'bg-transparent border-transparent text-slate-500 drop-shadow-lg bg-slate-100 active:drop-shadow-sm transition-none',
 				aside:
-					'bg-transparent border-transparent drop-shadow-lg  text-sky-600 active:drop-shadow-sm transition-none',
+					'bg-transparent border-transparent hover:bg-slate-100 active:bg-slate-100 drop-shadow-lg text-sky-600/80 active:drop-shadow-sm transition-none',
 				asideOutline:
-					'bg-transparent border-transparent active:drop-shadow-lg bg-slate-100 text-sky-600 border-2 border-sky-500 hover:border-sky-500/50 drop-shadow-sm transition-none',
+					'bg-transparent border-transparent active:drop-shadow-lg bg-slate-100 text-sky-600 border-2 border-sky-500/20 hover:border-sky-500/50 drop-shadow-sm transition-none',
 			},
 			size: {
 				default: 'h-11 px-4 py-2',

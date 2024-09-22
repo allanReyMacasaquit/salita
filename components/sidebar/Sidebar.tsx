@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import SidebarItem from './SidebarItem';
-import { sidebarItems } from '@/data/sidebarData';
+import { sidebarItems } from '@/data/sidebarItems';
 
 type Props = {
 	className?: string;
@@ -33,8 +33,6 @@ function Sidebar({ className }: Props) {
 					alt='Text Logo'
 				/>
 			</Link>
-
-			<hr className='border-t border-gray-300 my-4' />
 
 			<div className='flex flex-col gap-y-2 flex-1'>
 				{sidebarItems.map((item, index) => (

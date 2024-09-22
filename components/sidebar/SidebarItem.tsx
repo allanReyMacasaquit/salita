@@ -22,7 +22,7 @@ function SidebarItem({ label, href, iconSrc }: SidebarItemProps) {
 		>
 			<Link href={href}>
 				<Image src={iconSrc} alt={label} height={32} width={32} />
-				<span className='mx-2'>{label}</span>
+				<span className={active ? 'font-bold mx-4' : 'mx-2'}>{label}</span>
 			</Link>
 		</Button>
 	);

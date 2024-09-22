@@ -44,6 +44,7 @@ export default function Home() {
 					w-full
 					rounded-2xl
 					pb-2
+				
 					'
 				/>
 			</div>

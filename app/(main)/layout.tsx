@@ -16,7 +16,7 @@ export default function MainLayout({ children }: Props) {
 					pt-[50px]
 					lg:pt-0'
 			>
-				<div className='h-full'>{children}</div>
+				<div className='max-w-screen-2xl mx-auto h-full pt-8'>{children}</div>
 			</main>
 		</>
 	);
