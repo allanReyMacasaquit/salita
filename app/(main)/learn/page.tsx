@@ -12,7 +12,7 @@ function LearnPage() {
 			px-6'
 		>
 			<FeedWrapper>
-				<HeaderTitle title='Genesis' />
+				<HeaderTitle title='English' />
 				<div className='space-y-4'>
 					<div className='h-[700px] w-full rounded-xl border shadow-2xl drop-shadow-2xl shadow-slate-200'></div>
 					<div className='h-[700px] w-full rounded-xl border shadow-2xl drop-shadow-2xl shadow-slate-200'></div>
@@ -20,7 +20,7 @@ function LearnPage() {
 			</FeedWrapper>
 			<StickyWrapper>
 				<UserProgress
-					activeCourse={{ title: 'Genesis', imageSrc: '/images/flags/US.svg' }}
+					activeCourse={{ title: 'English', imageSrc: '/images/flags/US.svg' }}
 					hearts={5}
 					points={100}
 					hasActiveSubscription={false}
