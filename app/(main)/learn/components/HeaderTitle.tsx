@@ -22,7 +22,7 @@ function HeaderTitle({ title }: Props) {
 				lg:pb-6
 				flex
 				items-center
-				justify-between
+				justify-around
 				lg:mb-4
 				lg:shadow-sky-500
 				text-neutral-400
@@ -35,7 +35,7 @@ function HeaderTitle({ title }: Props) {
 				</Button>
 			</Link>
 			<h1 className='font-bold text-lg'>{title}</h1>
-			<div></div>
+			<div className='opacity-0'>none</div>
 		</div>
 	);
 }
