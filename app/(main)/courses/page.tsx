@@ -1,8 +1,9 @@
-import { getCourses } from '@/database/queries';
+import { getCourses, getUserProgress } from '@/database/queries';
 import List from './components/List';
 
 export default async function CoursesPage() {
 	const courses = await getCourses();
+	const userProgress = await getUserProgress();
 	return (
 		<div
 			className='
@@ -18,7 +19,7 @@ export default async function CoursesPage() {
 			>
 				Language Courses
 			</h1>
-			<List courses={courses} activeCourseId={1} />
+			<List courses={courses} activeCourseId={userProgress?.activeCourseId} />
 		</div>
 	);
 }

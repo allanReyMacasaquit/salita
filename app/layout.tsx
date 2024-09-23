@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
+import { Toaster } from '@/components/ui/sonner';
 
 const nunito = Nunito({
 	subsets: ['latin'], // Specify the character subsets (adjust as needed)
@@ -22,7 +23,10 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang='en'>
-				<body className={`${nunito.variable}  antialiased`}>{children}</body>
+				<body className={`${nunito.variable}  antialiased`}>
+					<Toaster position='bottom-right' />
+					{children}
+				</body>
 			</html>
 		</ClerkProvider>
 	);

@@ -2,8 +2,15 @@ import FeedWrapper from '@/components/wrapper/FeedWrapper';
 import HeaderTitle from './components/HeaderTitle';
 import StickyWrapper from '@/components/wrapper/StickyWrapper';
 import UserProgress from '@/components/user/UserProgress';
+import { getUserProgress } from '@/database/queries';
+import { redirect } from 'next/navigation';
 
-function LearnPage() {
+async function LearnPage() {
+	const userProgress = await getUserProgress();
+
+	if (!userProgress || !userProgress.activeCourse) {
+		redirect('/courses');
+	}
 	return (
 		<div
 			className='
