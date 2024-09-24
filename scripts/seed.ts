@@ -19,12 +19,12 @@ const main = async () => {
 		await db.insert(schema.courses).values([
 			{
 				id: 1,
-				title: 'Philippines',
+				title: 'Filipino',
 				imageSrc: './images/flags/PH.svg',
 			},
 			{
 				id: 2,
-				title: 'Switzerland',
+				title: 'Dutch',
 				imageSrc: './images/flags/CH.svg',
 			},
 			{

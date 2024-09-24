@@ -19,17 +19,17 @@ async function LearnPage() {
 			px-6'
 		>
 			<FeedWrapper>
-				<HeaderTitle title='English' />
+				<HeaderTitle title={userProgress.activeCourse.title} />
 				<div className='space-y-4'>
-					<div className='h-[700px] w-full rounded-xl border shadow-2xl drop-shadow-2xl shadow-slate-200'></div>
-					<div className='h-[700px] w-full rounded-xl border shadow-2xl drop-shadow-2xl shadow-slate-200'></div>
+					<div className='h-[700px] w-full rounded-xl border shadow-lg drop-shadow-lg shadow-slate-500'></div>
+					<div className='h-[700px] w-full rounded-xl border shadow-lg drop-shadow-lg shadow-slate-500'></div>
 				</div>
 			</FeedWrapper>
 			<StickyWrapper>
 				<UserProgress
-					activeCourse={{ title: 'English', imageSrc: '/images/flags/US.svg' }}
-					hearts={5}
-					points={100}
+					activeCourse={userProgress.activeCourse}
+					hearts={userProgress.hearts}
+					points={userProgress.points}
 					hasActiveSubscription={false}
 				/>
 			</StickyWrapper>

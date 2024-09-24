@@ -24,10 +24,11 @@ function HeaderTitle({ title }: Props) {
 				items-center
 				justify-around
 				lg:mb-4
-				lg:shadow-sky-500
+				lg:shadow-slate-500
 				text-neutral-400
 				rounded-b-2xl
-				lg:z-50'
+				z-50
+				'
 		>
 			<Link href='/courses'>
 				<Button size='sm' variant='aside' className='rounded-full'>
