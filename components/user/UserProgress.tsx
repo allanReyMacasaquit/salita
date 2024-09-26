@@ -20,11 +20,11 @@ function UserProgress({
 		<div
 			className='
 				sticky
+				w-full
                 flex
                 items-center
                 justify-between
                 gap-x-2
-                w-full
 				p-4
 				border
 				rounded-t-2xl

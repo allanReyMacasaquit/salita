@@ -17,7 +17,7 @@ export default async function CoursesPage() {
                     font-bold
                     text-neutral-700'
 			>
-				Language Courses
+				Bible Study Guide
 			</h1>
 			<List courses={courses} activeCourseId={userProgress?.activeCourseId} />
 		</div>

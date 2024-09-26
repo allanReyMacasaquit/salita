@@ -3,6 +3,12 @@ import { neon } from '@neondatabase/serverless';
 import { config } from 'dotenv';
 
 import * as schema from '../database/schema';
+import { lesson_1 } from '@/data/lessons/lesson_1';
+
+import { courses } from '@/data/course/course';
+import { units } from '@/data/units/units';
+import { challenge_1 } from '@/data/challenge/challenge_1';
+import { challenge_option_1 } from '@/data/chalengeOption/challenge_option_1';
 
 config({ path: '.env.local' });
 
@@ -15,44 +21,23 @@ const main = async () => {
 
 		await db.delete(schema.courses);
 		await db.delete(schema.userProgress);
+		await db.delete(schema.units);
+		await db.delete(schema.lessons);
+		await db.delete(schema.challengeOptions);
+		await db.delete(schema.challengeProgress);
 
-		await db.insert(schema.courses).values([
-			{
-				id: 1,
-				title: 'Filipino',
-				imageSrc: './images/flags/PH.svg',
-			},
-			{
-				id: 2,
-				title: 'Dutch',
-				imageSrc: './images/flags/CH.svg',
-			},
-			{
-				id: 3,
-				title: 'German',
-				imageSrc: './images/flags/DE.svg',
-			},
-			{
-				id: 4,
-				title: 'Italian',
-				imageSrc: './images/flags/IE.svg',
-			},
-			{
-				id: 5,
-				title: 'Jewish',
-				imageSrc: './images/flags/IL.svg',
-			},
-			{
-				id: 6,
-				title: 'Arabic',
-				imageSrc: './images/flags/UAE.svg',
-			},
-			{
-				id: 7,
-				title: 'English',
-				imageSrc: './images/flags/US.svg',
-			},
-		]);
+		await db.insert(schema.courses).values(courses);
+		await db.insert(schema.units).values(units);
+
+		await db.insert(schema.lessons).values(lesson_1);
+		// await db.insert(schema.lessons).values(lesson_2);
+		// await db.insert(schema.lessons).values(lesson_3);
+		// await db.insert(schema.lessons).values(lesson_4);
+		// await db.insert(schema.lessons).values(lesson_5);
+
+		await db.insert(schema.challenges).values(challenge_1);
+
+		await db.insert(schema.challengeOptions).values(challenge_option_1);
 
 		console.log('Seeding finished');
 	} catch (error) {

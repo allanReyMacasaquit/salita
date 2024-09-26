@@ -34,12 +34,13 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
 		fields: [units.courseId],
 		references: [courses.id],
 	}),
-	lesson: many(lessons),
+	lessons: many(lessons),
 }));
 
 export const lessons = pgTable('lessons', {
 	id: serial('id').primaryKey(),
 	title: text('title').notNull(),
+	description: text('description').notNull(), // Add the description field
 	unitId: integer('unit_id')
 		.references(() => units.id, { onDelete: 'cascade' })
 		.notNull(),
@@ -57,13 +58,16 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 export const challengesEnum = pgEnum('type', ['SELECT', 'ASSIST']);
 
 export const challenges = pgTable('challenges', {
-	id: serial('id').primaryKey(),
-	lessonId: integer('lesson_id')
+	id: serial('id').primaryKey(), // Serial ID as primary key
+	lessonId: integer('lesson_id') // Foreign key referencing lessons table
 		.references(() => lessons.id, { onDelete: 'cascade' })
 		.notNull(),
-	type: challengesEnum('type').notNull(),
-	question: text('question').notNull(),
-	order: integer('order').notNull(),
+	type: challengesEnum('type') // Enum for challenge type
+		.notNull(),
+	question: text('question') // Text field for the question
+		.notNull(),
+	order: integer('order') // Integer for the order of the challenge
+		.notNull(),
 });
 
 export const challengesRelations = relations(challenges, ({ one, many }) => ({

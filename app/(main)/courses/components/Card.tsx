@@ -54,6 +54,7 @@ function Card({ id, title, imageSrc, onClick, disabled, active }: CardProps) {
                     border-b-2
                     pt-2
                     object-cover
+					w-[120px]
                     '
 			/>
 			<p

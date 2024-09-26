@@ -2,13 +2,26 @@ import FeedWrapper from '@/components/wrapper/FeedWrapper';
 import HeaderTitle from './components/HeaderTitle';
 import StickyWrapper from '@/components/wrapper/StickyWrapper';
 import UserProgress from '@/components/user/UserProgress';
-import { getUserProgress } from '@/database/queries';
+import {
+	getCourseProgress,
+	getLessonPercentage,
+	getUnits,
+	getUserProgress,
+} from '@/database/queries';
 import { redirect } from 'next/navigation';
+import Unit from './components/Unit';
 
 async function LearnPage() {
 	const userProgress = await getUserProgress();
+	const units = await getUnits();
+	const courseProgress = await getCourseProgress();
+	const lessonPercentage = await getLessonPercentage();
 
 	if (!userProgress || !userProgress.activeCourse) {
+		redirect('/courses');
+	}
+
+	if (!courseProgress) {
 		redirect('/courses');
 	}
 	return (
@@ -20,10 +33,19 @@ async function LearnPage() {
 		>
 			<FeedWrapper>
 				<HeaderTitle title={userProgress.activeCourse.title} />
-				<div className='space-y-4'>
-					<div className='h-[700px] w-full rounded-xl border shadow-lg drop-shadow-lg shadow-slate-500'></div>
-					<div className='h-[700px] w-full rounded-xl border shadow-lg drop-shadow-lg shadow-slate-500'></div>
-				</div>
+				{units.map((unit) => (
+					<div key={unit.id} className='mb-10'>
+						<Unit
+							id={unit.id}
+							order={unit.order}
+							description={unit.description}
+							title={unit.title}
+							lessons={unit.lessons}
+							activeLesson={courseProgress.activeLesson}
+							activeLessonPercentage={lessonPercentage}
+						/>
+					</div>
+				))}
 			</FeedWrapper>
 			<StickyWrapper>
 				<UserProgress
