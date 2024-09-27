@@ -3,6 +3,7 @@ import { Nunito } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from '@/components/ui/sonner';
+import ExitModal from '@/components/modals/ExitModal';
 
 const nunito = Nunito({
 	subsets: ['latin'], // Specify the character subsets (adjust as needed)
@@ -24,6 +25,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en'>
 				<body className={`${nunito.variable}  antialiased`}>
+					<ExitModal />
 					<Toaster position='bottom-right' />
 					{children}
 				</body>

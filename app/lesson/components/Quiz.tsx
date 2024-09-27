@@ -1,7 +1,7 @@
 'use client';
 
 import { QuizProps } from '@/interfaces/Quiz';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import QuizHeader from './QuizHeader';
 
 function Quiz({
@@ -12,16 +12,18 @@ function Quiz({
 	userSubscription,
 }: QuizProps) {
 	const [hearts, setHearts] = useState(initialHearts);
-	const [percentage, setPercentage] = useState(50 || initialPercentage); // Set to initialPercentage or 0 if undefined
+	const [percentage, setPercentage] = useState(initialPercentage); // Set to initialPercentage or 0 if undefined
 
 	console.log('Current Percentage:', percentage); // Better log message for clarity
 
 	return (
-		<QuizHeader
-			hearts={hearts}
-			percentage={percentage}
-			hasActiveSubscription={!!userSubscription} // Ensure active subscription is properly checked
-		/>
+		<>
+			<QuizHeader
+				hearts={hearts}
+				percentage={percentage}
+				hasActiveSubscription={!!userSubscription.isActive} // Ensure active subscription is properly checked
+			/>
+		</>
 	);
 }
 

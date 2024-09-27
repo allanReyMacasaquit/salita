@@ -1,6 +1,8 @@
 'use client';
 
+import ExitModal from '@/components/modals/ExitModal';
 import { Progress } from '@/components/ui/progress';
+import { useExitModal } from '@/store/use-exit-modal';
 import { InfinityIcon, X } from 'lucide-react';
 import Image from 'next/image';
 
@@ -15,6 +17,7 @@ function QuizHeader({
 	percentage, // Initial percentage
 	hasActiveSubscription,
 }: QuizHeaderProps) {
+	const { open } = useExitModal();
 	return (
 		<header
 			className='
@@ -28,19 +31,14 @@ function QuizHeader({
             justify-between
             max-w-7xl
             mx-auto
-            w-full
-            bg-green-500
-            md:bg-white'
+            w-full'
 		>
 			<X
-				onClick={() => {
-					// TODO: Implement functionality, like navigating back or closing the quiz
-					console.log('Close button clicked');
-				}}
+				onClick={open}
 				className='hover:opacity-75 cursor-pointer transition w-10'
 			/>
-			<Progress value={percentage} />{' '}
 			{/* Use percentages for the progress bar */}
+			<Progress value={percentage} />
 			<div
 				className='
                 text-rose-500
@@ -61,6 +59,9 @@ function QuizHeader({
 				) : (
 					hearts
 				)}
+			</div>
+			<div className='mt-2 flex items-center pb-2 font-bold text-lg mx-2 lg:text-2xl'>
+				Progress: {percentage}%
 			</div>
 		</header>
 	);
