@@ -33,14 +33,17 @@ function LessonButton({
 
 	const rightPosition = indentationLevel * 40;
 	const isFirst = index === 0;
-	const isLast = index === totalCount - 1;
-	const isCompleted = !current && !locked;
+	const isLast = index === totalCount - 1; // Ensure this marks the last button
+	const isCompleted = !current && !locked; // Check if the lesson is completed (but not the current or locked one)
 
-	const Icon = isCompleted ? (
-		<Check />
-	) : isLast ? (
+	const Icon = isLast ? (
+		// Crown only for the last lesson
 		<Crown className='bg-yellow-500 p-2 rounded-full size-10' />
+	) : isCompleted ? (
+		// Check icon for completed lessons
+		<Check className='text-green-500' />
 	) : (
+		// Star for others (both current or pending lessons)
 		<Star className='bg-yellow-200 text-black p-2 rounded-full size-10' />
 	);
 
@@ -117,7 +120,7 @@ function LessonButton({
 										stroke: '#4ade80',
 									},
 									trail: {
-										stroke: '#e5e7eb',
+										stroke: '#00ff5e',
 									},
 								}}
 							>

@@ -3,9 +3,7 @@ import UnitBanner from './UnitBanner';
 import LessonButton from './LessonButton';
 
 function Unit({
-	id,
 	title,
-	order,
 	description,
 	lessons,
 	activeLesson,

@@ -9,18 +9,18 @@ function UnitBanner({ title, description }: UnitBannerProps) {
 	const router = useRouter();
 	return (
 		<Link
-			href='/'
+			href='/lesson'
 			className='
-            relative
-            w-full
-            rounded-2xl
-            bg-green-500
-            p-5
-            text-white
-            flex
-            items-center
-            justify-between
-            group' // Add group class to enable hover targeting
+                        relative
+                        w-full
+                        rounded-2xl
+                        bg-green-500
+                        p-5
+                        text-white
+                        flex
+                        items-center
+                        justify-between
+                        group' // Add group class to enable hover targeting
 		>
 			<div className='space-y-2.5'>
 				<h3 className='text-2xl font-bold m-2'>{title}</h3>
@@ -28,7 +28,7 @@ function UnitBanner({ title, description }: UnitBannerProps) {
 			</div>
 			<div className='relative'>
 				<Button
-					onClick={() => router.push('/')}
+					onClick={() => router.push('/lesson')}
 					size='lg'
 					variant='secondaryOutline'
 					className='
