@@ -45,7 +45,7 @@ function UserProgress({
 							text-neutral-400 
 							hover:text-neutral-500'
 					>
-						{activeCourse.title}
+						Available Courses
 					</span>
 				</Button>
 			</Link>

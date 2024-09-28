@@ -4,7 +4,7 @@ export const challenge_option_1 = [
 		challengeId: 1, // references the challenge for the Hebrew letter "א" (Aleph)
 		text: 'Silent, or a glottal stop',
 		correct: true, // This is the correct answer
-		imageSrc: '/man.svg',
+		imageSrc: '/images/choose.A.svg',
 		audioSrc: '/PH_man.mp3',
 	},
 	{
@@ -12,7 +12,7 @@ export const challenge_option_1 = [
 		challengeId: 1, // references the same challenge
 		text: 'Like the English "B"',
 		correct: false, // Incorrect answer
-		imageSrc: '/man.svg',
+		imageSrc: '/images/choose/B.svg',
 		audioSrc: '/PH_man.mp3',
 	},
 	{
@@ -20,7 +20,7 @@ export const challenge_option_1 = [
 		challengeId: 1, // references the same challenge
 		text: 'Like the English "S"',
 		correct: false, // Incorrect answer
-		imageSrc: '/man.svg',
+		imageSrc: '/images/choose/S.svg',
 		audioSrc: '/PH_man.mp3',
 	},
 	{
@@ -28,7 +28,7 @@ export const challenge_option_1 = [
 		challengeId: 1, // references the same challenge
 		text: 'Like the English "G"',
 		correct: false, // Incorrect answer
-		imageSrc: '/man.svg',
+		imageSrc: '/images/choose/G.svg',
 		audioSrc: '/PH_man.mp3',
 	},
 ];
