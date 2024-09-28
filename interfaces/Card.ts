@@ -7,7 +7,7 @@ export interface CardProps {
 	imageSrc?: string | null;
 	audioSrc?: string | null;
 	selected?: boolean;
-	status?: 'correct' | 'wrong' | 'none';
+	status?: 'correct' | 'wrong' | 'none' | 'completed';
 	disabled?: boolean;
 	type: (typeof challenges.$inferSelect)['type'];
 	onClick: () => void;

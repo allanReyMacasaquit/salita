@@ -6,6 +6,7 @@ import QuizHeader from './QuizHeader';
 import QuestionBubble from './QuestionBubble';
 import { useState } from 'react';
 import Challenge from './Challenge';
+import Footer from './Footer';
 
 function Quiz({
 	initialLessonId,
@@ -17,6 +18,9 @@ function Quiz({
 	const [hearts, setHearts] = useState(initialHearts);
 	const [percentage, setPercentage] = useState(initialPercentage); // Set to initialPercentage or 0 if undefined
 	const [challenges] = useState(initialLessonChallenges);
+	const [status, setStatus] = useState<
+		'correct' | 'wrong' | 'none' | 'completed'
+	>('completed');
 	const [activeIndex, setActiveIndex] = useState(() => {
 		const uncompletedIndex = challenges.findIndex(
 			(challenge) => !challenge.completed
@@ -24,6 +28,14 @@ function Quiz({
 		return uncompletedIndex === -1 ? 0 : uncompletedIndex;
 	});
 
+	const [selectedOption, setSelectedOption] = useState<number | undefined>(
+		undefined
+	);
+
+	const onSelect = (id: number) => {
+		if (status !== 'none') return;
+		setSelectedOption(id);
+	};
 	const challenge = challenges[activeIndex];
 	const options = challenge?.challengeOptions ?? [];
 
@@ -79,15 +91,16 @@ function Quiz({
 						</div>
 						<Challenge
 							options={options}
-							onSelect={() => {}}
-							status='none'
-							selectedOption={undefined}
+							onSelect={onSelect}
+							status={status}
+							selectedOption={selectedOption}
 							disabled={false}
 							type={challenge.type}
 						/>
 					</div>
 				</div>
 			</div>
+			<Footer disabled={!selectedOption} status={status} onCheck={() => {}} />
 		</>
 	);
 }
