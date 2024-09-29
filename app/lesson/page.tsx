@@ -29,7 +29,7 @@ async function LessonPage() {
 		return (
 			<Quiz
 				initialLessonId={lesson.id}
-				initialHearts={10}
+				initialHearts={userProgress.hearts}
 				initialPercentage={initialPercentage}
 				initialLessonChallenges={lesson.challenges} // Corrected prop name
 				userSubscription={true} // TODO: Update this when ready

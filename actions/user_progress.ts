@@ -2,8 +2,9 @@
 
 import { db } from '@/database/drizzle';
 import { getCourseById, getUserProgress } from '@/database/queries';
-import { userProgress } from '@/database/schema';
+import { challengeProgress, challenges, userProgress } from '@/database/schema';
 import { auth, currentUser } from '@clerk/nextjs/server';
+import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -48,3 +49,62 @@ export async function UPSERT_USER_PROGRESS(courseId: number) {
 	revalidatePath('/learn');
 	redirect('/learn');
 }
+
+export const REDUCE_HEARTS = async (challengeId: number) => {
+	const { userId } = auth();
+	if (!userId) {
+		throw new Error('UnAuthorized');
+	}
+
+	// Fetch both the challenge and user progress in parallel
+	const [challenge, currentUserProgress] = await Promise.all([
+		db.query.challenges.findFirst({ where: eq(challenges.id, challengeId) }),
+		getUserProgress(),
+	]);
+
+	if (!challenge) {
+		throw new Error('Challenge not Found!');
+	}
+	if (!currentUserProgress) {
+		throw new Error('User Progress not Found!');
+	}
+
+	const lessonId = challenge.lessonId;
+
+	// Check if the user has already practiced this challenge
+	const existingChallengeProgress = await db.query.challengeProgress.findFirst({
+		where: and(
+			eq(challengeProgress.userId, userId),
+			eq(challengeProgress.challengeId, challengeId)
+		),
+	});
+
+	// Return early if it's a practice attempt
+	if (existingChallengeProgress) {
+		return { error: 'practice' };
+	}
+
+	// Return if the user has no hearts left
+	if (currentUserProgress.hearts === 0) {
+		return;
+	}
+
+	// Deduct one heart
+	await db
+		.update(userProgress)
+		.set({
+			hearts: currentUserProgress.hearts - 1,
+		})
+		.where(eq(userProgress.userId, userId));
+
+	// Batch revalidate multiple paths
+	await Promise.all([
+		revalidatePath('/shop'),
+		revalidatePath('/learn'),
+		revalidatePath('/query'),
+		revalidatePath('/leaderboard'),
+		revalidatePath(`/lesson/${lessonId}`),
+	]);
+
+	return { success: true };
+};
