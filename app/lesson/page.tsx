@@ -38,7 +38,6 @@ async function LessonPage() {
 	} catch (error) {
 		console.error('Error loading lesson or user progress:', error);
 		redirect('/learn'); // Redirect on error as well
-		return null; // Ensures no further rendering
 	}
 }
 

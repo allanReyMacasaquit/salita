@@ -101,7 +101,7 @@ export const REDUCE_HEARTS = async (challengeId: number) => {
 	await Promise.all([
 		revalidatePath('/shop'),
 		revalidatePath('/learn'),
-		revalidatePath('/query'),
+		revalidatePath('/lesson'),
 		revalidatePath('/leaderboard'),
 		revalidatePath(`/lesson/${lessonId}`),
 	]);

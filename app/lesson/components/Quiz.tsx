@@ -1,5 +1,5 @@
 'use client';
-import { useState, useTransition } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { QuizProps } from '@/interfaces/Quiz';
 import QuizHeader from './QuizHeader';
 import QuestionBubble from './QuestionBubble';
@@ -8,7 +8,11 @@ import Footer from './Footer';
 import UPSERT_CHALLENGE_PROGRESS from '@/actions/challenge_progress';
 import { toast } from 'sonner';
 import { REDUCE_HEARTS } from '@/actions/user_progress';
-import { redirect, useRouter } from 'next/navigation'; // Ensure this is available for redirection
+import { useRouter } from 'next/navigation'; // Ensure this is available for redirection
+import { useAudio, useWindowSize } from 'react-use';
+import Confetti from 'react-confetti';
+import Image from 'next/image';
+import FinishCard from './FinishCard';
 
 function Quiz({
 	initialLessonId,
@@ -17,6 +21,22 @@ function Quiz({
 	initialLessonChallenges,
 	userSubscription,
 }: QuizProps) {
+	const { width, height } = useWindowSize();
+	const [lessonId] = useState(initialLessonId);
+	// Audio effects
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [correctSoundfx, _c, correctControls] = useAudio({
+		src: '/mp3/correct.mp3',
+	});
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [incorrectSoundfx, _i, incorrectControls] = useAudio({
+		src: '/mp3/incorrect.mp3',
+	});
+	const [finish, _a] = useAudio({
+		src: '/mp3/finish.mp3',
+		autoPlay: true,
+	});
+
 	const router = useRouter();
 	const [pending, startTransition] = useTransition();
 	const [hearts, setHearts] = useState(initialHearts);
@@ -36,7 +56,7 @@ function Quiz({
 	// Check if hearts are 0 and handle redirection
 	const checkHearts = () => {
 		if (hearts === 0) {
-			toast.error('Oops! No more hearts left to continue.');
+			toast.error('Opps! No more hearts to try.');
 			setTimeout(() => {
 				router.push('/learn'); // Redirect after a brief delay
 			}, 2000);
@@ -50,8 +70,62 @@ function Quiz({
 		setSelectedOption(id);
 	};
 
+	// Get the current challenge or handle when undefined
 	const challenge = challenges[activeIndex];
-	const options = challenge?.challengeOptions ?? [];
+
+	// Use useEffect to handle undefined challenge and redirection
+	// useEffect(() => {
+	// 	if (!challenge) {
+	// 		router.push('/learn');
+	// 	}
+	// }, [challenge, router]);
+
+	if (!challenge) {
+		// Early return to avoid further rendering if the challenge is undefined
+		return (
+			<>
+				<div className='flex flex-col max-w-7xl mx-auto gap-y-4 px-6 items-center justify-center h-screen text-lg text-gray-500'>
+					{finish}
+					<Confetti
+						width={width}
+						height={height}
+						recycle={false}
+						numberOfPieces={500}
+						tweenDuration={10000}
+					/>
+					<Image
+						src='/winner.svg'
+						alt='winner'
+						height={100}
+						width={100}
+						priority
+						className=' relative w-48 lg:w-52  shadow-2xl drop-shadow-2xl border-2 rounded-full'
+					/>
+					<h1 className='text-4xl text-center'>
+						Great job!
+						<br /> You&apos;ve completed the lesson
+					</h1>
+					<div
+						className='
+						flex
+						items-center
+						gap-x-4
+						w-full'
+					>
+						<FinishCard variant='points' value={challenges.length * 10} />
+						<FinishCard variant='hearts' value={hearts} />
+					</div>
+				</div>
+				<Footer
+					lessonId={lessonId}
+					onCheck={() => router.push('/learn')}
+					status='completed'
+				/>
+			</>
+		);
+	}
+
+	const options = challenge.challengeOptions ?? [];
 	const title =
 		challenge.type === 'ASSIST'
 			? 'Select the correct meaning'
@@ -78,9 +152,11 @@ function Quiz({
 						if (initialPercentage === 100) {
 							setHearts((prev) => Math.min(prev + 1, 5));
 						}
+						correctControls.play(); // Play correct sound
 					} else {
 						setStatus('wrong');
 						setHearts((prev) => Math.max(prev - 1, 0));
+						incorrectControls.play(); // Play incorrect sound
 					}
 				})
 				.catch(() => toast.error('Something went wrong! Please try again.'));
@@ -131,6 +207,8 @@ function Quiz({
 							disabled={false}
 							type={challenge.type}
 						/>
+						{correctSoundfx}
+						{incorrectSoundfx}
 					</div>
 				</div>
 			</div>

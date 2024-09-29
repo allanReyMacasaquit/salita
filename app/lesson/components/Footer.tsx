@@ -1,57 +1,78 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { CheckCircle, ThumbsUp, XCircle } from 'lucide-react';
+import { CheckCircle, ThumbsUp } from 'lucide-react';
 import { useKey, useMedia } from 'react-use';
+import { useEffect, useState, useMemo } from 'react';
 
 type Props = {
 	status: 'correct' | 'wrong' | 'none' | 'completed';
 	disabled?: boolean;
-	lessonId?: boolean;
+	lessonId?: number;
 	onCheck: () => void;
 };
+
 function Footer({ status, disabled, onCheck, lessonId }: Props) {
 	const isMobile = useMedia('(max-width:1024px)');
 
 	useKey('Enter', onCheck, {}, [onCheck]);
-	const correctPhrases = [
-		'Nicely done!',
-		'Great job!',
-		'Fantastic!',
-		"You're on fire!",
-		'Awesome work!',
-		'Keep it up!',
-		'Brilliant!',
-		'Well played!',
-		'Incredible!',
-		'That was sharp!',
-		"You're crushing it!",
-		'Spot on!',
-		'You nailed it!',
-		'Keep rocking!',
-		"That's how it's done!",
-	];
 
-	const incorrectPhrases = [
-		'You can do it!',
-		"Don't give up!",
-		'Keep trying!',
-		'Almost there!',
-		'Stay focused!',
-		'Keep pushing!',
-		"Don't worry, you'll get it!",
-		'Give it another shot!',
-		'Keep your head up!',
-		"You're learning!",
-		'Stay positive!',
-		"It's all part of the process!",
-		"You're closer than you think!",
-		'Every mistake is progress!',
-		'Hang in there!',
-	];
+	// Memoized phrases so they aren't recreated on every render
+	const correctPhrases = useMemo(
+		() => [
+			'Nicely done!',
+			'Great job!',
+			'Fantastic!',
+			"You're on fire!",
+			'Awesome work!',
+			'Keep it up!',
+			'Brilliant!',
+			'Well played!',
+			'Incredible!',
+			'That was sharp!',
+			"You're crushing it!",
+			'Spot on!',
+			'You nailed it!',
+			'Keep rocking!',
+			"That's how it's done!",
+		],
+		[]
+	);
+
+	const incorrectPhrases = useMemo(
+		() => [
+			'You can do it!',
+			"Don't give up!",
+			'Keep trying!',
+			'Almost there!',
+			'Stay focused!',
+			'Keep pushing!',
+			"Don't worry, you'll get it!",
+			'Give it another shot!',
+			'Keep your head up!',
+			"You're learning!",
+			'Stay positive!',
+			"It's all part of the process!",
+			"You're closer than you think!",
+			'Every mistake is progress!',
+			'Hang in there!',
+		],
+		[]
+	);
+
+	const [selectedPhrase, setSelectedPhrase] = useState<string | null>(null);
 
 	const getRandomPhrase = (phrases: string[]) => {
 		return phrases[Math.floor(Math.random() * phrases.length)];
 	};
+
+	// Effect to set a new random phrase when the status changes
+	useEffect(() => {
+		if (status === 'correct') {
+			setSelectedPhrase(getRandomPhrase(correctPhrases));
+		} else if (status === 'wrong') {
+			setSelectedPhrase(getRandomPhrase(incorrectPhrases));
+		}
+	}, [status, correctPhrases, incorrectPhrases]);
 
 	return (
 		<div
@@ -67,13 +88,13 @@ function Footer({ status, disabled, onCheck, lessonId }: Props) {
 				{status === 'correct' && (
 					<div className='text-green-500 font-bold text-base lg:text-2xl flex items-center'>
 						<CheckCircle className='h-6 w-6 lg:h-10 lg:w-10 mr-4 ' />
-						{getRandomPhrase(correctPhrases)}
+						{selectedPhrase}
 					</div>
 				)}
 				{status === 'wrong' && (
 					<div className='text-rose-500 font-bold text-base lg:text-2xl flex items-center'>
 						<ThumbsUp className='h-6 w-6 lg:h-10 lg:w-10 mr-4 ' />
-						{getRandomPhrase(incorrectPhrases)}
+						{selectedPhrase}
 					</div>
 				)}
 				{status === 'completed' && (
@@ -105,4 +126,5 @@ function Footer({ status, disabled, onCheck, lessonId }: Props) {
 		</div>
 	);
 }
+
 export default Footer;
