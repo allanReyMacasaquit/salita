@@ -26,6 +26,7 @@ function Quiz({
 	initialPercentage,
 	initialLessonChallenges,
 	userSubscription,
+	practiceMode,
 }: QuizProps) {
 	const { width, height } = useWindowSize();
 	const [lessonId] = useState(initialLessonId);
@@ -147,13 +148,16 @@ function Quiz({
 						setPercentage((prev) => prev + 100 / challenges.length);
 						correctControls.play(); // Play correct sound
 						// Increment hearts if in practice mode and less than max hearts
-						if (hearts < 5) {
+						if (practiceMode && hearts < 5) {
 							setHearts((prev) => Math.min(prev + 1, 5)); // Increment hearts for practice
 						}
 					} else {
 						setStatus('wrong');
-						setHearts((prev) => Math.max(prev - 1, 0));
-
+						// Only reduce hearts if not in practice mode
+						if (!practiceMode) {
+							setHearts((prev) => Math.max(prev - 1, 0));
+						}
+						checkHearts();
 						incorrectControls.play(); // Play incorrect sound
 					}
 				})
@@ -207,7 +211,7 @@ function Quiz({
 							onSelect={onSelect}
 							status={status}
 							selectedOption={selectedOption}
-							disabled={false}
+							disabled={pending}
 							type={challenge.type}
 						/>
 					</div>

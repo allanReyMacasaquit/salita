@@ -120,7 +120,7 @@ function LessonButton({
 										stroke: '#4ade80',
 									},
 									trail: {
-										stroke: '#00ff5e',
+										stroke: 'rgb(156 163 175',
 									},
 								}}
 							>

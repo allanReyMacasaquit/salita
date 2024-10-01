@@ -37,7 +37,8 @@ async function LessonIdPage({ params }: Props) {
 				initialHearts={userProgress.hearts}
 				initialPercentage={initialPercentage}
 				initialLessonChallenges={lesson.challenges} // Corrected prop name
-				userSubscription={true} // TODO: Update this when ready
+				userSubscription={true}
+				practiceMode
 			/>
 		);
 	} catch (error) {

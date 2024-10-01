@@ -10,4 +10,5 @@ export interface QuizProps {
 	})[];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	userSubscription: any;
+	practiceMode: boolean;
 }
