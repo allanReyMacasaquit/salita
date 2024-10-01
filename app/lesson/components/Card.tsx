@@ -6,7 +6,6 @@ import { useCallback } from 'react';
 import { useAudio, useKey } from 'react-use';
 
 function Card({
-	id,
 	text,
 	shortcut,
 	imageSrc,
@@ -17,6 +16,7 @@ function Card({
 	type,
 	onClick,
 }: CardProps) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [audio, _, controls] = useAudio({ src: audioSrc || '' });
 
 	const handleClick = useCallback(() => {

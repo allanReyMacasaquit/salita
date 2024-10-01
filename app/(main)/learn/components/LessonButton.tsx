@@ -47,7 +47,7 @@ function LessonButton({
 		<Star className='bg-yellow-200 text-black p-2 rounded-full size-10' />
 	);
 
-	const href = isCompleted ? `/lesson${id}` : '/lesson';
+	const href = isCompleted ? `/lesson/${id}` : '/lesson';
 
 	return (
 		<Link

@@ -8,16 +8,14 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
-import { useExitModal } from '@/store/use-exit-modal';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { useRouter } from 'next/navigation';
+import { usePracticeModal } from '@/store/practice-modal';
 
-function ExitModal() {
-	const router = useRouter();
+function PracticeModal() {
 	const [isClient, setIsClient] = useState(false);
-	const { isOpen, close } = useExitModal();
+	const { isOpen, close } = usePracticeModal();
 
 	// This ensures that the component is rendered only on the client
 	useEffect(() => {
@@ -40,23 +38,27 @@ function ExitModal() {
 						mb-5'
 					>
 						<Image
-							src='/exit_modal_1.svg'
-							alt='exit modal'
+							src='/upgrade.svg'
+							alt='practice modal'
 							width={100}
 							height={100}
 							priority
-							className='mx-2 w-20'
+							className='mx-2 w-30'
 						/>
 					</div>
 					<DialogTitle
 						className='
 						text-center font-bold text-2xl text-gray-500'
 					>
-						Leaving your Lesson!
+						Practice Lessons
 					</DialogTitle>
 				</DialogHeader>
-				<DialogDescription className='text-center text-gray-400'>
-					Are you sure you want to exit?
+				<DialogDescription className='text-center text-gray-400 text-xl'>
+					`Use practice lessons to regain hearts and points at your own pace.
+					These sessions are designed to help you improve without any
+					pressure—you won’t lose hearts or points, no matter how many mistakes
+					you make. It&apos;s the perfect opportunity to sharpen your skills and
+					build confidence!`
 				</DialogDescription>
 				<DialogFooter>
 					<div className=' flex flex-col gap-4 w-full'>
@@ -66,18 +68,7 @@ function ExitModal() {
 							variant='primary'
 							className='w-full text-white'
 						>
-							Keep Learning
-						</Button>
-						<Button
-							onClick={() => {
-								close();
-								router.push('/learn');
-							}}
-							size='lg'
-							variant='danger'
-							className='w-full text-white'
-						>
-							End Session
+							I understand
 						</Button>
 					</div>
 				</DialogFooter>
@@ -86,4 +77,4 @@ function ExitModal() {
 	);
 }
 
-export default ExitModal;
+export default PracticeModal;

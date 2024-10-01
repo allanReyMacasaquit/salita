@@ -1,18 +1,24 @@
 'use client';
-import { useState, useEffect, useTransition } from 'react';
+
+import { useState, useTransition } from 'react';
+import { useAudio, useMount, useWindowSize } from 'react-use';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import Image from 'next/image';
+import Confetti from 'react-confetti';
+
+import { REDUCE_HEARTS } from '@/actions/user_progress';
+import UPSERT_CHALLENGE_PROGRESS from '@/actions/challenge_progress';
+
 import { QuizProps } from '@/interfaces/Quiz';
+
 import QuizHeader from './QuizHeader';
 import QuestionBubble from './QuestionBubble';
 import Challenge from './Challenge';
 import Footer from './Footer';
-import UPSERT_CHALLENGE_PROGRESS from '@/actions/challenge_progress';
-import { toast } from 'sonner';
-import { REDUCE_HEARTS } from '@/actions/user_progress';
-import { useRouter } from 'next/navigation'; // Ensure this is available for redirection
-import { useAudio, useWindowSize } from 'react-use';
-import Confetti from 'react-confetti';
-import Image from 'next/image';
 import FinishCard from './FinishCard';
+import { useHeartsModal } from '@/store/use-hearts-modal';
+import { usePracticeModal } from '@/store/practice-modal';
 
 function Quiz({
 	initialLessonId,
@@ -23,7 +29,6 @@ function Quiz({
 }: QuizProps) {
 	const { width, height } = useWindowSize();
 	const [lessonId] = useState(initialLessonId);
-	// Audio effects
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [correctSoundfx, _c, correctControls] = useAudio({
 		src: '/mp3/correct.mp3',
@@ -32,6 +37,7 @@ function Quiz({
 	const [incorrectSoundfx, _i, incorrectControls] = useAudio({
 		src: '/mp3/incorrect.mp3',
 	});
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [finish, _a] = useAudio({
 		src: '/mp3/finish.mp3',
 		autoPlay: true,
@@ -39,9 +45,20 @@ function Quiz({
 
 	const router = useRouter();
 	const [pending, startTransition] = useTransition();
+	const [selectedOption, setSelectedOption] = useState<number | undefined>();
 	const [hearts, setHearts] = useState(initialHearts);
-	const [percentage, setPercentage] = useState(initialPercentage);
+	const [percentage, setPercentage] = useState(() => {
+		return initialPercentage === 100 ? 0 : initialPercentage;
+	});
 	const [challenges] = useState(initialLessonChallenges);
+	const { open: openHeartsModal } = useHeartsModal();
+	const { open: openPracticeModal } = usePracticeModal();
+
+	useMount(() => {
+		if (initialPercentage === 100) {
+			openPracticeModal();
+		}
+	});
 	const [status, setStatus] = useState<
 		'correct' | 'wrong' | 'none' | 'completed'
 	>('none');
@@ -51,18 +68,12 @@ function Quiz({
 		);
 		return uncompletedIndex === -1 ? 0 : uncompletedIndex;
 	});
-	const [selectedOption, setSelectedOption] = useState<number | undefined>();
 
-	// Check if hearts are 0 and handle redirection
+	// Check if hearts are 0 and handle redirection (only if not in practice mode)
 	const checkHearts = () => {
 		if (hearts === 0) {
-			toast.error('Opps! No more hearts to try.');
-			setTimeout(() => {
-				router.push('/learn'); // Redirect after a brief delay
-			}, 2000);
-			return true;
+			openHeartsModal();
 		}
-		return false;
 	};
 
 	const onSelect = (id: number) => {
@@ -73,15 +84,8 @@ function Quiz({
 	// Get the current challenge or handle when undefined
 	const challenge = challenges[activeIndex];
 
-	// Use useEffect to handle undefined challenge and redirection
-	// useEffect(() => {
-	// 	if (!challenge) {
-	// 		router.push('/learn');
-	// 	}
-	// }, [challenge, router]);
-
 	if (!challenge) {
-		// Early return to avoid further rendering if the challenge is undefined
+		// Return early if challenge is undefined or finished
 		return (
 			<>
 				<div className='flex flex-col max-w-7xl mx-auto gap-y-4 px-6 items-center justify-center h-screen text-lg text-gray-500'>
@@ -99,19 +103,13 @@ function Quiz({
 						height={100}
 						width={100}
 						priority
-						className=' relative w-48 lg:w-52  shadow-2xl drop-shadow-2xl border-2 rounded-full'
+						className='relative w-48 lg:w-52 shadow-2xl drop-shadow-2xl border-2 rounded-full'
 					/>
 					<h1 className='text-4xl text-center'>
 						Great job!
 						<br /> You&apos;ve completed the lesson
 					</h1>
-					<div
-						className='
-						flex
-						items-center
-						gap-x-4
-						w-full'
-					>
+					<div className='flex items-center gap-x-4 w-full'>
 						<FinishCard variant='points' value={challenges.length * 10} />
 						<FinishCard variant='hearts' value={hearts} />
 					</div>
@@ -132,8 +130,6 @@ function Quiz({
 			: challenge.question;
 
 	const handleChallengeProgress = (isCorrect: boolean) => {
-		if (checkHearts()) return; // Check if user is out of hearts
-
 		startTransition(() => {
 			const action = isCorrect
 				? UPSERT_CHALLENGE_PROGRESS(challenge.id)
@@ -142,20 +138,22 @@ function Quiz({
 			action
 				.then((response) => {
 					if (response?.error === 'hearts') {
-						console.error('Missing hearts');
+						checkHearts();
 						return;
 					}
 
 					if (isCorrect) {
 						setStatus('correct');
 						setPercentage((prev) => prev + 100 / challenges.length);
-						if (initialPercentage === 100) {
-							setHearts((prev) => Math.min(prev + 1, 5));
-						}
 						correctControls.play(); // Play correct sound
+						// Increment hearts if in practice mode and less than max hearts
+						if (hearts < 5) {
+							setHearts((prev) => Math.min(prev + 1, 5)); // Increment hearts for practice
+						}
 					} else {
 						setStatus('wrong');
 						setHearts((prev) => Math.max(prev - 1, 0));
+
 						incorrectControls.play(); // Play incorrect sound
 					}
 				})
@@ -185,6 +183,11 @@ function Quiz({
 
 	return (
 		<>
+			{/* Render audio elements */}
+			{correctSoundfx}
+			{incorrectSoundfx}
+			{finish}
+
 			<QuizHeader
 				hearts={hearts}
 				percentage={percentage}
@@ -207,8 +210,6 @@ function Quiz({
 							disabled={false}
 							type={challenge.type}
 						/>
-						{correctSoundfx}
-						{incorrectSoundfx}
 					</div>
 				</div>
 			</div>

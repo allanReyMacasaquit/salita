@@ -103,7 +103,7 @@ function Footer({ status, disabled, onCheck, lessonId }: Props) {
 							variant='secondaryOutline'
 							className='cursor-pointer'
 							size={isMobile ? 'sm' : 'lg'}
-							onClick={() => (window.location.href = `/lesson${lessonId}`)}
+							onClick={() => (window.location.href = `/lesson/${lessonId}`)}
 						>
 							Practice Again
 						</Button>

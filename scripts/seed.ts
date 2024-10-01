@@ -7,8 +7,12 @@ import { lesson_1 } from '@/data/lessons/lesson_1';
 
 import { courses } from '@/data/course/course';
 import { units } from '@/data/units/units';
+
 import { challenge_1 } from '@/data/challenge/challenge_1';
 import { challenge_option_1 } from '@/data/chalengeOption/challenge_option_1';
+
+import { challenge_2 } from '@/data/challenge/challenge_2';
+import { challenge_option_2 } from '@/data/chalengeOption/challenge_option_2';
 
 config({ path: '.env.local' });
 
@@ -30,12 +34,9 @@ const main = async () => {
 		await db.insert(schema.units).values(units);
 
 		await db.insert(schema.lessons).values(lesson_1);
-		// await db.insert(schema.lessons).values(lesson_2);
-		// await db.insert(schema.lessons).values(lesson_3);
-		// await db.insert(schema.lessons).values(lesson_4);
-		// await db.insert(schema.lessons).values(lesson_5);
 
 		await db.insert(schema.challenges).values(challenge_1);
+		await db.insert(schema.challenges).values(challenge_2);
 
 		await db.insert(schema.challengeOptions).values(challenge_option_1);
 
