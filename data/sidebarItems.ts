@@ -13,4 +13,5 @@ export const sidebarItems = [
 		iconSrc: '/images/sidebar/leaderboard.png',
 	},
 	{ label: 'Give', href: '/give', iconSrc: '/images/sidebar/give.png' },
+	{ label: 'Shop', href: '/shop', iconSrc: '/images/sidebar/shop_1.svg' },
 ];
