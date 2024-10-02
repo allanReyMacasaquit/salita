@@ -4,22 +4,19 @@ import StickyWrapper from '@/components/wrapper/StickyWrapper';
 import { getUserProgress, getUserSubscription } from '@/database/queries';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
-import ShopItems from './ShopItems';
+import ShopItems from './components/ShopItems';
 
 const ShopPage = async () => {
-	const userProgress = await getUserProgress();
-	const userSubscription = await getUserSubscription();
+	const [userProgress, userSubscription] = await Promise.all([
+		getUserProgress(),
+		getUserSubscription(),
+	]);
 
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses');
 	}
 
-	if ('error' in userSubscription!) {
-		console.error(userSubscription.error);
-	}
-
-	const hasActiveSubscription =
-		'isActive' in userSubscription! && !!userSubscription.isActive;
+	const isPro = !!userSubscription?.isActive;
 
 	return (
 		<div
@@ -64,7 +61,7 @@ const ShopPage = async () => {
 					<ShopItems
 						hearts={userProgress.hearts}
 						points={userProgress.points}
-						hasActiveSubscription={hasActiveSubscription}
+						hasActiveSubscription={isPro}
 					/>
 				</div>
 			</FeedWrapper>
@@ -73,7 +70,7 @@ const ShopPage = async () => {
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
-					hasActiveSubscription={hasActiveSubscription}
+					hasActiveSubscription={isPro}
 				/>
 			</StickyWrapper>
 		</div>

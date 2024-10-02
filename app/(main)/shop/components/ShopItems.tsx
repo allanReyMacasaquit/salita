@@ -31,19 +31,15 @@ const ShopItems = ({ hearts, points, hasActiveSubscription }: Props) => {
 				});
 		});
 	};
-
 	const onUpgrade = () => {
 		startTransition(() => {
 			createStripeUrl()
 				.then((response) => {
 					if (response.data) {
-						refillControl.play();
 						window.location.href = response.data;
 					}
 				})
-				.catch(() => {
-					toast.error('Something went wrong');
-				});
+				.catch(() => toast.error('Something went wrong'));
 		});
 	};
 
@@ -112,8 +108,7 @@ const ShopItems = ({ hearts, points, hasActiveSubscription }: Props) => {
 				flex 
 				items-center 
 				w-full 
-				p-4 
-				pt-8 
+				p-4
 				gap-x-4
 				border-t-2'
 			>

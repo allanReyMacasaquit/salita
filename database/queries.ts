@@ -195,30 +195,22 @@ export const getLessonPercentage = cache(async () => {
 	);
 	return percentage;
 });
-
+const DAY_IN_MS = 86_400_000;
 export const getUserSubscription = cache(async () => {
-	const DAY_IN_MS = 86_400_000;
 	const { userId } = auth();
-
 	if (!userId) return null;
 
-	const subscription = await db.query.userSubscription.findFirst({
+	const data = await db.query.userSubscription.findFirst({
 		where: eq(userSubscription.userId, userId),
 	});
-
-	if (!subscription) {
-		return { error: 'No subscription found for this user' };
-	}
-	const currentPeriodEnd = subscription.stripeCurrentPeriodEnd;
+	if (!data) return null;
 
 	const isActive =
-		subscription.stripePriceId &&
-		currentPeriodEnd.getTime() + DAY_IN_MS > Date.now();
+		data.stripePriceId &&
+		data.stripeCurrentPeriodEnd.getTime() + DAY_IN_MS > Date.now();
 
-	if (subscription) {
-		return {
-			...subscription,
-			isActive: isActive,
-		};
-	}
+	return {
+		...data,
+		isActive: !!isActive,
+	};
 });
