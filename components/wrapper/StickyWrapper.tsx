@@ -9,7 +9,8 @@ function StickyWrapper({ children }: Props) {
             sticky
             hidden
             lg:block
-            w-1/3
+            lg:w-96
+            w-full
             self-end
             bottom-10
             border
