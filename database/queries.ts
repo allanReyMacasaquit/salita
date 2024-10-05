@@ -195,7 +195,8 @@ export const getLessonPercentage = cache(async () => {
 	);
 	return percentage;
 });
-const DAY_IN_MS = 86_400_000;
+
+const DAY_IN_MS = 86400000; // 1 day in milliseconds
 export const getUserSubscription = cache(async () => {
 	const { userId } = auth();
 	if (!userId) return null;
@@ -203,11 +204,13 @@ export const getUserSubscription = cache(async () => {
 	const data = await db.query.userSubscription.findFirst({
 		where: eq(userSubscription.userId, userId),
 	});
+	console.log(data);
+
 	if (!data) return null;
 
 	const isActive =
 		data.stripePriceId &&
-		data.stripeCurrentPeriodEnd.getTime() + DAY_IN_MS > Date.now();
+		data.stripeCurrentPeriodEnd?.getTime() + DAY_IN_MS > Date.now();
 
 	return {
 		...data,

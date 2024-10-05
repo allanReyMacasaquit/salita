@@ -37,9 +37,14 @@ const ShopItems = ({ hearts, points, hasActiveSubscription }: Props) => {
 				.then((response) => {
 					if (response.data) {
 						window.location.href = response.data;
+					} else {
+						toast.error('Failed to create Stripe session');
 					}
 				})
-				.catch(() => toast.error('Something went wrong'));
+				.catch((error) => {
+					console.error('Stripe subscription error:', error); // Log error
+					toast.error('Something went wrong');
+				});
 		});
 	};
 

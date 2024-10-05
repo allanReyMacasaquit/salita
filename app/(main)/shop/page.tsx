@@ -7,15 +7,12 @@ import { redirect } from 'next/navigation';
 import ShopItems from './components/ShopItems';
 
 const ShopPage = async () => {
-	const [userProgress, userSubscription] = await Promise.all([
-		getUserProgress(),
-		getUserSubscription(),
-	]);
+	const userProgress = await getUserProgress();
+	const userSubscription = await getUserSubscription();
 
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses');
 	}
-
 	const isPro = !!userSubscription?.isActive;
 
 	return (
