@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useTransition } from 'react';
-import { useAudio, useMount, useWindowSize } from 'react-use';
+import { useEffect, useState, useTransition } from 'react';
+import { useAudio, useWindowSize } from 'react-use';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import Image from 'next/image';
@@ -53,13 +53,14 @@ function Quiz({
 	const [challenges] = useState(initialLessonChallenges);
 	const { open: openHeartsModal } = useHeartsModal();
 	const { open: openPracticeModal } = usePracticeModal();
-	const [practiceMode] = useState(false);
+	const [practiceMode, setPracticeMode] = useState(false);
 
-	useMount(() => {
+	useEffect(() => {
 		if (initialPercentage === 100) {
+			setPracticeMode(true);
 			openPracticeModal();
 		}
-	});
+	}, [initialPercentage, openPracticeModal]);
 	const [status, setStatus] = useState<
 		'correct' | 'wrong' | 'none' | 'completed'
 	>('none');

@@ -13,8 +13,8 @@ function StickyWrapper({ children }: Props) {
             w-full
             self-end
             bottom-10
-            border
-            rounded-2xl'
+         
+            '
 		>
 			<div
 				className='
@@ -24,7 +24,7 @@ function StickyWrapper({ children }: Props) {
                 sticky
                 top-6
                 gap-y-6
-                shadow-lg
+                
                 border-b-2
                 '
 			>

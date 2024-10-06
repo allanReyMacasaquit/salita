@@ -11,6 +11,7 @@ import {
 } from '@/database/queries';
 import { redirect } from 'next/navigation';
 import Unit from './components/Unit';
+import Promo from '@/app/lesson/components/Promo';
 
 async function LearnPage() {
 	const userProgress = await getUserProgress();
@@ -29,8 +30,10 @@ async function LearnPage() {
 		<div
 			className='
 			flex 
+			flex-row
 			gap-12
-			px-6'
+			px-6
+			max-w-7xl'
 		>
 			<FeedWrapper>
 				<HeaderTitle title={userProgress.activeCourse.title} />
@@ -55,6 +58,7 @@ async function LearnPage() {
 					points={userProgress.points}
 					hasActiveSubscription={!!userSubscription?.isActive}
 				/>
+				<Promo />
 			</StickyWrapper>
 		</div>
 	);

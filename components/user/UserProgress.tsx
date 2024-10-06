@@ -4,13 +4,14 @@ import { InfinityIcon } from 'lucide-react';
 
 import { courses } from '@/database/schema';
 import { Button } from '@/components/ui/button';
+
 type UserProgressProps = {
 	activeCourse: typeof courses.$inferSelect;
 	hearts: number;
 	points: number;
 	hasActiveSubscription: boolean;
 };
-function UserProgress({
+async function UserProgress({
 	activeCourse,
 	hearts,
 	points,
@@ -20,15 +21,14 @@ function UserProgress({
 		<div
 			className='
 				sticky
-				w-full
-                flex
-                items-center
+				
+               
                 justify-between
-                gap-x-2
-				p-4
+              
+			
 				border
 				rounded-t-2xl
-				bg-sky-100'
+				'
 		>
 			<Link href='/courses'>
 				<Button size='sm' variant='default'>
@@ -89,6 +89,7 @@ function UserProgress({
 					</span>
 				</Button>
 			</Link>
+			=
 		</div>
 	);
 }
