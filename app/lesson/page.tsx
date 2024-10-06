@@ -1,13 +1,18 @@
-import { getLesson, getUserProgress } from '@/database/queries';
+import {
+	getLesson,
+	getUserProgress,
+	getUserSubscription,
+} from '@/database/queries';
 import { redirect } from 'next/navigation';
 import Quiz from './components/Quiz';
 
 async function LessonPage() {
 	try {
 		// Fetch lesson and user progress concurrently
-		const [lesson, userProgress] = await Promise.all([
+		const [lesson, userProgress, userSubscription] = await Promise.all([
 			getLesson(),
 			getUserProgress(),
+			getUserSubscription(),
 		]);
 
 		// Redirect if either the lesson or user progress is missing
@@ -32,7 +37,7 @@ async function LessonPage() {
 				initialHearts={userProgress.hearts}
 				initialPercentage={initialPercentage}
 				initialLessonChallenges={lesson.challenges} // Corrected prop name
-				userSubscription={true} // TODO: Update this when ready
+				userSubscription={!!userSubscription?.isActive} // TODO: Update this when ready
 			/>
 		);
 	} catch (error) {

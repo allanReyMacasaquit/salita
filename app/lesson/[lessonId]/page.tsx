@@ -1,4 +1,8 @@
-import { getLesson, getUserProgress } from '@/database/queries';
+import {
+	getLesson,
+	getUserProgress,
+	getUserSubscription,
+} from '@/database/queries';
 import { redirect } from 'next/navigation';
 import Quiz from '../components/Quiz';
 
@@ -10,9 +14,10 @@ type Props = {
 async function LessonIdPage({ params }: Props) {
 	try {
 		// Fetch lesson and user progress concurrently
-		const [lesson, userProgress] = await Promise.all([
+		const [lesson, userProgress, userSubscription] = await Promise.all([
 			getLesson(params.lessonId),
 			getUserProgress(),
+			getUserSubscription(),
 		]);
 
 		// Redirect if either the lesson or user progress is missing
@@ -37,8 +42,7 @@ async function LessonIdPage({ params }: Props) {
 				initialHearts={userProgress.hearts}
 				initialPercentage={initialPercentage}
 				initialLessonChallenges={lesson.challenges} // Corrected prop name
-				userSubscription={true}
-				practiceMode
+				userSubscription={!!userSubscription?.isActive}
 			/>
 		);
 	} catch (error) {

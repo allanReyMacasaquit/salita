@@ -1,7 +1,11 @@
 'use server';
 
 import { db } from '@/database/drizzle';
-import { getCourseById, getUserProgress } from '@/database/queries';
+import {
+	getCourseById,
+	getUserProgress,
+	getUserSubscription,
+} from '@/database/queries';
 import { challengeProgress, challenges, userProgress } from '@/database/schema';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { and, eq } from 'drizzle-orm';
@@ -22,9 +26,9 @@ export async function UPSERT_USER_PROGRESS(courseId: number) {
 		throw new Error('Course not found!');
 	}
 
-	// if (!course.units.length || !course.units[0].lessons.length) {
-	// 	throw new Error('Course is Empty');
-	// }
+	if (!course.units.length || !course.units[0].lessons.length) {
+		throw new Error('Course is Empty');
+	}
 
 	const existingUserProgress = await getUserProgress();
 
@@ -51,6 +55,8 @@ export async function UPSERT_USER_PROGRESS(courseId: number) {
 }
 
 export const REDUCE_HEARTS = async (challengeId: number) => {
+	const userSubscription = await getUserSubscription();
+
 	const { userId } = auth();
 	if (!userId) {
 		throw new Error('UnAuthorized');
@@ -79,9 +85,18 @@ export const REDUCE_HEARTS = async (challengeId: number) => {
 		),
 	});
 
-	// Return early if it's a practice attempt
-	if (existingChallengeProgress) {
+	const isPractice = !!existingChallengeProgress;
+
+	if (isPractice) {
 		return { error: 'practice' };
+	}
+	if (existingChallengeProgress) {
+		// Return early if it's a practice attempt
+		return { error: 'practice' };
+	}
+
+	if (userSubscription?.isActive) {
+		return { error: 'subscription' };
 	}
 
 	// Return if the user has no hearts left

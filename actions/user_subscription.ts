@@ -54,7 +54,7 @@ export const createStripeUrl = async () => {
 			cancel_url: returnUrl,
 		});
 
-		console.log('Checkout session created, URL:', stripeSession.url); // Add logging here
+		// console.log('Checkout session created, URL:', stripeSession.url); // Add logging here
 		return { data: stripeSession.url };
 	} catch (error) {
 		console.error('Error creating Stripe session:', error); // Add error logging

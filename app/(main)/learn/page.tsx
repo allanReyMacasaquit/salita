@@ -7,6 +7,7 @@ import {
 	getLessonPercentage,
 	getUnits,
 	getUserProgress,
+	getUserSubscription,
 } from '@/database/queries';
 import { redirect } from 'next/navigation';
 import Unit from './components/Unit';
@@ -16,7 +17,7 @@ async function LearnPage() {
 	const units = await getUnits();
 	const courseProgress = await getCourseProgress();
 	const lessonPercentage = await getLessonPercentage();
-
+	const userSubscription = await getUserSubscription();
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses');
 	}
@@ -52,7 +53,7 @@ async function LearnPage() {
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
-					hasActiveSubscription={false}
+					hasActiveSubscription={!!userSubscription?.isActive}
 				/>
 			</StickyWrapper>
 		</div>

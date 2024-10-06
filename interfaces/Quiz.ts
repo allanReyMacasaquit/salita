@@ -9,6 +9,5 @@ export interface QuizProps {
 		challengeOptions: (typeof challengeOptions.$inferSelect)[];
 	})[];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	userSubscription: any;
-	practiceMode: boolean;
+	userSubscription: boolean;
 }

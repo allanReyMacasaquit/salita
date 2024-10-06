@@ -12,7 +12,6 @@ import { challenge_1 } from '@/data/challenge/challenge_1';
 import { challenge_option_1 } from '@/data/chalengeOption/challenge_option_1';
 
 import { challenge_2 } from '@/data/challenge/challenge_2';
-import { challenge_option_2 } from '@/data/chalengeOption/challenge_option_2';
 
 config({ path: '.env.local' });
 

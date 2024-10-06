@@ -26,7 +26,6 @@ function Quiz({
 	initialPercentage,
 	initialLessonChallenges,
 	userSubscription,
-	practiceMode,
 }: QuizProps) {
 	const { width, height } = useWindowSize();
 	const [lessonId] = useState(initialLessonId);
@@ -54,6 +53,7 @@ function Quiz({
 	const [challenges] = useState(initialLessonChallenges);
 	const { open: openHeartsModal } = useHeartsModal();
 	const { open: openPracticeModal } = usePracticeModal();
+	const [practiceMode] = useState(false);
 
 	useMount(() => {
 		if (initialPercentage === 100) {
@@ -112,7 +112,11 @@ function Quiz({
 					</h1>
 					<div className='flex items-center gap-x-4 w-full'>
 						<FinishCard variant='points' value={challenges.length * 10} />
-						<FinishCard variant='hearts' value={hearts} />
+						{userSubscription ? (
+							''
+						) : (
+							<FinishCard variant='hearts' value={hearts} />
+						)}
 					</div>
 				</div>
 				<Footer
@@ -195,7 +199,7 @@ function Quiz({
 			<QuizHeader
 				hearts={hearts}
 				percentage={percentage}
-				hasActiveSubscription={!!userSubscription.isActive}
+				hasActiveSubscription={userSubscription}
 			/>
 			<div className='flex-1'>
 				<div className='h-full flex items-center justify-center'>

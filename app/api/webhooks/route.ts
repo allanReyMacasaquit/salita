@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 			signature,
 			process.env.STRIPE_WEBHOOK_SECRET!
 		);
-		console.log('Webhook received:', event.type);
+		// console.log('Webhook received:', event.type);
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			return new NextResponse(`Webhook error: ${error.message}`, {
@@ -32,16 +32,16 @@ export async function POST(req: Request) {
 	}
 
 	const session = event.data.object as Stripe.Checkout.Session;
-	console.log('Session:', session); // Log the entire session object
+	// console.log('Session:', session); // Log the entire session object
 
 	if (event.type === 'checkout.session.completed') {
-		console.log('Checkout session completed:', session.id);
+		// console.log('Checkout session completed:', session.id);
 
 		const subscription = await stripe.subscriptions.retrieve(
 			session.subscription as string
 		);
-		console.log('Subscription retrieved:', subscription);
-		console.log('Session metadata:', session.metadata); // Check if metadata is correctly set
+		// console.log('Subscription retrieved:', subscription);
+		// console.log('Session metadata:', session.metadata); // Check if metadata is correctly set
 
 		if (!session?.metadata?.userId) {
 			return new NextResponse('User ID is required', { status: 400 });
@@ -57,19 +57,19 @@ export async function POST(req: Request) {
 					subscription.current_period_end * 1000
 				),
 			});
-			console.log('Insert successful');
+			// console.log('Insert successful');
 		} catch (error) {
 			console.error('Database insert error:', error);
 		}
 	}
 
 	if (event.type === 'invoice.payment_succeeded') {
-		console.log('Invoice payment succeeded for session:', session.id);
+		// console.log('Invoice payment succeeded for session:', session.id);
 
 		const subscription = await stripe.subscriptions.retrieve(
 			session.subscription as string
 		);
-		console.log('Subscription for update retrieved:', subscription);
+		// console.log('Subscription for update retrieved:', subscription);
 
 		try {
 			await db
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
 					),
 				})
 				.where(eq(userSubscription.stripeSubscriptionId, subscription.id));
-			console.log('Update successful');
+			// console.log('Update successful');
 		} catch (error) {
 			console.error('Database update error:', error);
 		}

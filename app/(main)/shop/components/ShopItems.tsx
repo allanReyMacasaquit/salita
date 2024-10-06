@@ -139,13 +139,8 @@ const ShopItems = ({ hearts, points, hasActiveSubscription }: Props) => {
 						Unlimited hearts
 					</p>
 				</div>
-				<Button
-					onClick={onUpgrade}
-					variant='primary'
-					size='lg'
-					disabled={pending || hasActiveSubscription}
-				>
-					{hasActiveSubscription ? 'active' : 'upgrade'}
+				<Button onClick={onUpgrade} variant='primary' size='lg'>
+					{hasActiveSubscription ? 'settings' : 'upgrade'}
 				</Button>
 			</div>
 		</ul>
