@@ -5,6 +5,7 @@ import { getUserProgress, getUserSubscription } from '@/database/queries';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import ShopItems from './components/ShopItems';
+import Promo from '@/app/lesson/components/Promo';
 
 const ShopPage = async () => {
 	const userProgress = await getUserProgress();
@@ -69,6 +70,7 @@ const ShopPage = async () => {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
+				{!userSubscription?.isActive && <Promo />}
 			</StickyWrapper>
 		</div>
 	);

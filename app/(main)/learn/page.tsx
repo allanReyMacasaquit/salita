@@ -12,6 +12,7 @@ import {
 import { redirect } from 'next/navigation';
 import Unit from './components/Unit';
 import Promo from '@/app/lesson/components/Promo';
+import Quest from '@/app/lesson/components/Quest';
 
 async function LearnPage() {
 	const userProgress = await getUserProgress();
@@ -58,7 +59,8 @@ async function LearnPage() {
 					points={userProgress.points}
 					hasActiveSubscription={!!userSubscription?.isActive}
 				/>
-				<Promo />
+				{!userSubscription?.isActive && <Promo />}
+				<Quest points={userProgress.points} />
 			</StickyWrapper>
 		</div>
 	);

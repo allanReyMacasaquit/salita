@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation';
 import StickyWrapper from '@/components/wrapper/StickyWrapper';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import Promo from '@/app/lesson/components/Promo';
 
 async function LeaderboardPage() {
 	const userProgress = await getUserProgress();
@@ -91,6 +92,7 @@ async function LeaderboardPage() {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
+				{!userSubscription?.isActive && <Promo />}
 			</StickyWrapper>
 		</div>
 	);

@@ -26,7 +26,7 @@ function HeartsModal() {
 
 	const onClick = () => {
 		close();
-		router.push('/store');
+		router.push('/shop');
 	};
 
 	// Return null to avoid server-side rendering

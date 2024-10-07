@@ -21,13 +21,8 @@ async function UserProgress({
 		<div
 			className='
 				sticky
-				
-               
                 justify-between
-              
-			
-				border
-				rounded-t-2xl
+				border-b-2
 				'
 		>
 			<Link href='/courses'>
@@ -89,7 +84,6 @@ async function UserProgress({
 					</span>
 				</Button>
 			</Link>
-			=
 		</div>
 	);
 }

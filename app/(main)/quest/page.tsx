@@ -1,34 +1,14 @@
+import Promo from '@/app/lesson/components/Promo';
 import { Progress } from '@/components/ui/progress';
 import UserProgress from '@/components/user/UserProgress';
 import FeedWrapper from '@/components/wrapper/FeedWrapper';
 import StickyWrapper from '@/components/wrapper/StickyWrapper';
+import { quests } from '@/constants';
 import { getUserProgress, getUserSubscription } from '@/database/queries';
 import { Separator } from '@radix-ui/react-separator';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
-const quests = [
-	{
-		title: 'Earn 20XP',
-		value: 20,
-	},
-	{
-		title: 'Earn 50XP',
-		value: 50,
-	},
-	{
-		title: 'Earn 100XP',
-		value: 100,
-	},
-	{
-		title: 'Earn 500XP',
-		value: 500,
-	},
-	{
-		title: 'Earn 1000XP',
-		value: 1000,
-	},
-];
 async function QuestPage() {
 	const userProgress = await getUserProgress();
 	const userSubscription = await getUserSubscription();
@@ -122,6 +102,7 @@ async function QuestPage() {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
+				{!isPro && <Promo />}
 			</StickyWrapper>
 		</div>
 	);
