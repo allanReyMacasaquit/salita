@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server';
 
 const allowedIds = ['user_2mreaOLiDfmi8WLjp2UUqpzS5Va'];
-export const getIsAdmin = async () => {
+export const isAdmin = () => {
 	const { userId } = auth();
 
 	if (!userId) return false;

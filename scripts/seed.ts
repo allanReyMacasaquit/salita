@@ -3,15 +3,6 @@ import { neon } from '@neondatabase/serverless';
 import { config } from 'dotenv';
 
 import * as schema from '../database/schema';
-import { lesson_1 } from '@/data/lessons/lesson_1';
-
-import { courses } from '@/data/course/course';
-import { units } from '@/data/units/units';
-
-import { challenge_1 } from '@/data/challenge/challenge_1';
-import { challenge_option_1 } from '@/data/chalengeOption/challenge_option_1';
-
-import { challenge_2 } from '@/data/challenge/challenge_2';
 
 config({ path: '.env.local' });
 
@@ -20,7 +11,7 @@ const db = drizzle(sql, { schema });
 
 const main = async () => {
 	try {
-		console.log('Seeding Database');
+		console.log('Reset Database');
 
 		await db.delete(schema.courses);
 		await db.delete(schema.userProgress);
@@ -30,17 +21,7 @@ const main = async () => {
 		await db.delete(schema.challengeProgress);
 		await db.delete(schema.userSubscription);
 
-		await db.insert(schema.courses).values(courses);
-		await db.insert(schema.units).values(units);
-
-		await db.insert(schema.lessons).values(lesson_1);
-
-		await db.insert(schema.challenges).values(challenge_1);
-		await db.insert(schema.challenges).values(challenge_2);
-
-		await db.insert(schema.challengeOptions).values(challenge_option_1);
-
-		console.log('Seeding finished');
+		console.log('Reset finished');
 	} catch (error) {
 		console.error(error);
 		throw new Error('Failed to seed the database');
