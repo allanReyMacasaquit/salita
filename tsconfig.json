@@ -28,7 +28,8 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"db"
+		"db",
+		"app/api/courses"
 	],
 	"exclude": ["node_modules"]
 }

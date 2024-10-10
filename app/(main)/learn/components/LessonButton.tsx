@@ -38,7 +38,7 @@ function LessonButton({
 
 	const Icon = isLast ? (
 		// Crown only for the last lesson
-		<Crown className='bg-yellow-500 p-2 rounded-full size-10' />
+		<Crown className='bg-yellow-500 p-2 rounded-full w-10 h-10' />
 	) : isCompleted ? (
 		// Check icon for completed lessons
 		<Check className='text-green-500' />
@@ -46,6 +46,7 @@ function LessonButton({
 		// Star for others (both current or pending lessons)
 		<Star className='bg-yellow-200 text-black p-2 rounded-full size-10' />
 	);
+	console.log({ index, totalCount, isLast, isCompleted, current });
 
 	const href = isCompleted ? `/lesson/${id}` : '/lesson';
 

@@ -21,7 +21,7 @@ function Unit({
 							key={lesson.id}
 							id={lesson.id}
 							index={index}
-							totalCount={lessons.length - 1}
+							totalCount={lessons.length}
 							current={isCurrent}
 							locked={isLocked}
 							percentage={activeLessonPercentage}
